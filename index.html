@@ -165,6 +165,8 @@
     align-items:flex-start;
     gap:clamp(10px,1.6vw,20px);
     width:100%;
+    max-width:660px;
+    margin-inline:auto;
   }
 
   .card{
@@ -529,11 +531,17 @@
       }
 
       if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
-      var obs = new IntersectionObserver(function (entries, o) {
+      var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
-          if (e.isIntersecting) { run(e.target); o.unobserve(e.target); }
+          var el = e.target, info = el._proof;
+          if (!info) return;
+          if (e.isIntersecting) {
+            run(el);                       // animate up whenever it scrolls into view
+          } else if (!reduce) {
+            el.textContent = fmt(0, info.comma) + info.suffix; // reset so it replays on return
+          }
         });
-      }, { threshold: 0.4 });
+      }, { threshold: 0.25 });
       nums.forEach(function (el) { obs.observe(el); });
     })();
   </script>
