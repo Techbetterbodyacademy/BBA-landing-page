@@ -53,20 +53,6 @@
     z-index:0;
   }
 
-  /* faded box grid — dissolves toward the edges */
-  body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size:60px 60px;
-    -webkit-mask-image:radial-gradient(ellipse at center, #000 38%, transparent 82%);
-    mask-image:radial-gradient(ellipse at center, #000 38%, transparent 82%);
-    pointer-events:none;
-    z-index:0;
-  }
 
   .page{
     position:relative;
