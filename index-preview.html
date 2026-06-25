@@ -162,7 +162,6 @@
   /* ---------- choice cards ---------- */
   .cards{
     display:flex;
-    align-items:flex-start;
     gap:clamp(10px,1.6vw,20px);
     width:100%;
   }
@@ -170,7 +169,7 @@
   .card{
     position:relative;
     flex:1 1 0;
-    aspect-ratio:760 / 754;
+    height:clamp(196px,32vh,326px);
     border-radius:18px;
     border:1px solid var(--glass-border);
     overflow:hidden;
@@ -194,22 +193,22 @@
       linear-gradient(195deg, #181818 0%, #0b0b0b 72%);
   }
 
-  /* full before/after photo filling the card (card matches the image aspect) */
+  /* real transformation photo filling a choice card */
   .card-photo{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:center;
+    object-position:50% 28%;
     z-index:0;
   }
-  /* readability scrim so the label stays legible over the photo */
+  /* readability scrim over the photo so the label stays legible */
   .card--photo::after{
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(180deg, rgba(10,10,10,.04) 0%, rgba(10,10,10,.10) 58%, rgba(10,10,10,.80) 100%);
+    background:linear-gradient(180deg, rgba(10,10,10,.20) 0%, rgba(10,10,10,.34) 48%, rgba(10,10,10,.86) 100%);
     z-index:1;
     pointer-events:none;
   }
@@ -307,7 +306,6 @@
     letter-spacing:-.01em;
     color:var(--white);
     margin-bottom:6px;
-    font-variant-numeric:tabular-nums;
   }
   .proof-label{
     font-family:var(--mono);
@@ -368,7 +366,7 @@
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  /* ---------- tablets & phones: keep the two cards side by side ---------- */
+  /* ---------- tablets & phones: stack the two cards ---------- */
   @media (max-width:680px){
     .page{
       min-height:100dvh;
@@ -380,11 +378,15 @@
       gap:clamp(12px,3vh,18px);
     }
     .cards{
-      gap:10px;
+      flex-direction:column;
+      gap:14px;
     }
     .card{
-      height:auto;
+      flex:0 0 auto;
+      height:clamp(150px,26vh,200px);
     }
+    /* symbol watermark sits lower so it doesn't crowd the label */
+    .symbol{transform:translate(-50%,-64%);width:clamp(92px,22vw,120px)}
   }
 
   /* ---------- small phones: tighten type & proof strip ---------- */
@@ -392,10 +394,8 @@
     h1{font-size:clamp(28px,8.6vw,38px);max-width:18ch}
     .sub{font-size:14px;max-width:38ch}
     .prompt{letter-spacing:4px}
-    .card{border-radius:15px;height:auto}
-    .card-foot{padding:12px 13px}
-    .card-label{font-size:clamp(20px,6.4vw,30px)}
-    .card-cta{font-size:11px;gap:5px;margin-top:5px}
+    .card{border-radius:15px;height:clamp(140px,22vh,178px)}
+    .card-foot{padding:14px 16px}
     /* proof becomes a tidy 2x2 grid, no dividers */
     .proof{
       display:grid;
@@ -413,7 +413,7 @@
   <div class="page">
 
     <header class="topbar">
-      <img class="badge" src="BADGE LOGO (Filled).png" alt="Better Body Academy badge">
+      <img class="badge" src="badge-logo.png" alt="Better Body Academy badge">
     </header>
 
     <main class="hero">
@@ -430,7 +430,7 @@
 
         <!-- MAN -->
         <a class="card card-men card--photo" href="men.html" aria-label="I am a man — see my transformation plan">
-          <img class="card-photo" src="man-before-after.webp"
+          <img class="card-photo" src="man-card.webp"
             alt="Real Better Body Academy client — 21kg lost, 25cm off the waist" loading="lazy">
           <div class="card-foot">
             <div class="card-label">Man</div>
@@ -439,9 +439,12 @@
         </a>
 
         <!-- WOMAN -->
-        <a class="card card-women card--photo" href="women.html" aria-label="I am a woman — see my transformation plan">
-          <img class="card-photo" src="woman-before-after.webp"
-            alt="Real Better Body Academy client — 15kg lost, 11cm off the waist" loading="lazy">
+        <a class="card card-women" href="women.html" aria-label="I am a woman — see my transformation plan">
+          <svg class="symbol" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <circle cx="50" cy="38" r="24" stroke-width="6"/>
+            <line x1="50" y1="62" x2="50" y2="90" stroke-width="6" stroke-linecap="round"/>
+            <line x1="38" y1="78" x2="62" y2="78" stroke-width="6" stroke-linecap="round"/>
+          </svg>
           <div class="card-foot">
             <div class="card-label">Woman</div>
             <span class="card-cta">Show me my plan <span class="arrow">&rarr;</span></span>
@@ -481,61 +484,5 @@
     </footer>
 
   </div>
-
-  <script>
-    /* Count up the proof stats from 0 to their values when they scroll into view */
-    (function () {
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var nums = document.querySelectorAll('.proof-num');
-      if (!nums.length) return;
-
-      function parse(el) {
-        var raw = el.textContent.trim();
-        var m = raw.match(/^([\d.,]+)(.*)$/);
-        if (!m) return null;
-        return {
-          target: parseFloat(m[1].replace(/,/g, '')),
-          suffix: m[2] || '',
-          comma: m[1].indexOf(',') !== -1
-        };
-      }
-      function fmt(n, comma) {
-        n = Math.round(n);
-        return comma ? n.toLocaleString('en-US') : String(n);
-      }
-
-      // capture targets, then reset to 0 so they animate in
-      nums.forEach(function (el) {
-        var info = parse(el);
-        if (!info) return;
-        el._proof = info;
-        if (!reduce) el.textContent = fmt(0, info.comma) + info.suffix;
-      });
-
-      function run(el) {
-        var info = el._proof;
-        if (!info) return;
-        if (reduce) { el.textContent = fmt(info.target, info.comma) + info.suffix; return; }
-        var dur = 1700, start = null;
-        function step(t) {
-          if (start === null) start = t;
-          var p = Math.min((t - start) / dur, 1);
-          var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-          el.textContent = fmt(info.target * eased, info.comma) + info.suffix;
-          if (p < 1) requestAnimationFrame(step);
-          else el.textContent = fmt(info.target, info.comma) + info.suffix;
-        }
-        requestAnimationFrame(step);
-      }
-
-      if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
-      var obs = new IntersectionObserver(function (entries, o) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { run(e.target); o.unobserve(e.target); }
-        });
-      }, { threshold: 0.4 });
-      nums.forEach(function (el) { obs.observe(el); });
-    })();
-  </script>
 </body>
 </html>
