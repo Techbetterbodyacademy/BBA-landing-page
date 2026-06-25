@@ -169,7 +169,7 @@
   .card{
     position:relative;
     flex:1 1 0;
-    height:clamp(196px,32vh,326px);
+    height:clamp(300px,52vh,460px);
     border-radius:18px;
     border:1px solid var(--glass-border);
     overflow:hidden;
@@ -194,22 +194,33 @@
   }
 
   /* real transformation photo filling a choice card */
-  .card-photo{
+  .card-photo,
+  .card-photo-bg{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
+  }
+  /* blurred copy fills the card so the full portrait has no empty side bars */
+  .card-photo-bg{
     object-fit:cover;
-    object-position:50% 28%;
+    transform:scale(1.12);
+    filter:blur(26px) brightness(.42) saturate(1.1);
     z-index:0;
   }
-  /* readability scrim over the photo so the label stays legible */
+  /* the full before/after, shown complete (no cropping) */
+  .card-photo{
+    object-fit:contain;
+    object-position:50% 42%;
+    z-index:1;
+  }
+  /* readability scrim so the label stays legible over the photo */
   .card--photo::after{
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(180deg, rgba(10,10,10,.20) 0%, rgba(10,10,10,.34) 48%, rgba(10,10,10,.86) 100%);
-    z-index:1;
+    background:linear-gradient(180deg, rgba(10,10,10,.05) 0%, rgba(10,10,10,.10) 55%, rgba(10,10,10,.78) 100%);
+    z-index:2;
     pointer-events:none;
   }
 
@@ -383,7 +394,7 @@
     }
     .card{
       flex:0 0 auto;
-      height:clamp(150px,26vh,200px);
+      height:clamp(340px,46vh,440px);
     }
     /* symbol watermark sits lower so it doesn't crowd the label */
     .symbol{transform:translate(-50%,-64%);width:clamp(92px,22vw,120px)}
@@ -394,7 +405,7 @@
     h1{font-size:clamp(28px,8.6vw,38px);max-width:18ch}
     .sub{font-size:14px;max-width:38ch}
     .prompt{letter-spacing:4px}
-    .card{border-radius:15px;height:clamp(140px,22vh,178px)}
+    .card{border-radius:15px;height:clamp(320px,44vh,400px)}
     .card-foot{padding:14px 16px}
     /* proof becomes a tidy 2x2 grid, no dividers */
     .proof{
@@ -430,7 +441,8 @@
 
         <!-- MAN -->
         <a class="card card-men card--photo" href="men.html" aria-label="I am a man — see my transformation plan">
-          <img class="card-photo" src="man-card.webp"
+          <img class="card-photo-bg" src="man-before-after.webp" alt="" aria-hidden="true" loading="lazy">
+          <img class="card-photo" src="man-before-after.webp"
             alt="Real Better Body Academy client — 21kg lost, 25cm off the waist" loading="lazy">
           <div class="card-foot">
             <div class="card-label">Man</div>
