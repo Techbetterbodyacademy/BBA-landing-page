@@ -550,7 +550,7 @@ button { font-family: inherit; cursor: pointer; }
   .transformation-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
-  .transformation-grid { grid-template-columns: 1fr; }
+  .transformation-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }
 .transformation-card {
   background: #0c1220;
@@ -886,8 +886,6 @@ button { font-family: inherit; cursor: pointer; }
   .hero { padding: 60px 0 40px; }
   .btn { padding: 16px 28px; font-size: 16px; letter-spacing: 0.1em; }
   .pillar-grid,
-  .transformation-grid,
   .testimonial-grid { grid-template-columns: 1fr; }
-  .transformation-card,
   .pillar-card { max-width: 360px; margin: 0 auto; }
 }
