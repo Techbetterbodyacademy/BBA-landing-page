@@ -71,39 +71,47 @@
   .page{
     position:relative;
     z-index:1;
-    min-height:100dvh;
+    min-height:calc(100dvh - 54px);
     display:flex;
     flex-direction:column;
     padding:clamp(14px,3vw,26px) clamp(18px,4vw,40px) clamp(12px,2.4vw,22px);
   }
 
-  /* ---------- top bar / badge ---------- */
+  /* ---------- top header bar (slim line: label + small badge) ---------- */
   .topbar{
+    position:relative;
+    z-index:2;
+    flex:0 0 auto;
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:12px;
-    flex:0 0 auto;
+    height:54px;
+    padding:0 clamp(16px,4vw,40px);
+    border-bottom:1px solid var(--glass-border);
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
   }
-  .badge{width:clamp(84px,12vw,128px);height:auto;flex:0 0 auto;display:block}
-  .badge .ring{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.4}
-  .badge .ring.thin{stroke:rgba(255,255,255,.45);stroke-width:.8}
-  .badge .ringtext{
-    fill:rgba(255,255,255,.85);
-    font-family:var(--display);
-    font-weight:600;
-    font-size:5.4px;
-    letter-spacing:.55px;
+  .topbar-label{
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:clamp(10px,1.3vw,12px);
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--coral);
   }
-  .badge .dot{fill:rgba(255,255,255,.7)}
-  .badge .mono text{fill:#fff;font-family:var(--display);font-weight:800;font-size:28px}
-
-  .wordmark{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:20px;
-    letter-spacing:2px;
-    color:var(--white);
+  .topbar-badge{
+    position:absolute;
+    right:clamp(16px,4vw,40px);
+    top:50%;
+    transform:translateY(-50%);
+    height:36px;
+    width:auto;
+    display:block;
+  }
+  @media (max-width:430px){
+    .topbar{height:48px}
+    .topbar-badge{height:30px}
   }
 
   /* ---------- hero ---------- */
@@ -412,15 +420,14 @@
 </style>
 </head>
 <body>
+  <header class="topbar">
+    <span class="topbar-label">Transformation Team</span>
+    <img class="topbar-badge" src="BADGE LOGO (Filled).png" alt="Better Body Academy">
+  </header>
+
   <div class="page">
 
-    <header class="topbar">
-      <img class="badge" src="BADGE LOGO (Filled).png" alt="Better Body Academy badge">
-    </header>
-
     <main class="hero">
-
-      <p class="eyebrow">Transformation Team</p>
 
       <h1>This is where it changes.</h1>
 
