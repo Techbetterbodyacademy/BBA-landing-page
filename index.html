@@ -307,6 +307,7 @@
     letter-spacing:-.01em;
     color:var(--white);
     margin-bottom:6px;
+    font-variant-numeric:tabular-nums;
   }
   .proof-label{
     font-family:var(--mono);
@@ -480,5 +481,61 @@
     </footer>
 
   </div>
+
+  <script>
+    /* Count up the proof stats from 0 to their values when they scroll into view */
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var nums = document.querySelectorAll('.proof-num');
+      if (!nums.length) return;
+
+      function parse(el) {
+        var raw = el.textContent.trim();
+        var m = raw.match(/^([\d.,]+)(.*)$/);
+        if (!m) return null;
+        return {
+          target: parseFloat(m[1].replace(/,/g, '')),
+          suffix: m[2] || '',
+          comma: m[1].indexOf(',') !== -1
+        };
+      }
+      function fmt(n, comma) {
+        n = Math.round(n);
+        return comma ? n.toLocaleString('en-US') : String(n);
+      }
+
+      // capture targets, then reset to 0 so they animate in
+      nums.forEach(function (el) {
+        var info = parse(el);
+        if (!info) return;
+        el._proof = info;
+        if (!reduce) el.textContent = fmt(0, info.comma) + info.suffix;
+      });
+
+      function run(el) {
+        var info = el._proof;
+        if (!info) return;
+        if (reduce) { el.textContent = fmt(info.target, info.comma) + info.suffix; return; }
+        var dur = 1700, start = null;
+        function step(t) {
+          if (start === null) start = t;
+          var p = Math.min((t - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+          el.textContent = fmt(info.target * eased, info.comma) + info.suffix;
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = fmt(info.target, info.comma) + info.suffix;
+        }
+        requestAnimationFrame(step);
+      }
+
+      if (!('IntersectionObserver' in window)) { nums.forEach(run); return; }
+      var obs = new IntersectionObserver(function (entries, o) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { run(e.target); o.unobserve(e.target); }
+        });
+      }, { threshold: 0.4 });
+      nums.forEach(function (el) { obs.observe(el); });
+    })();
+  </script>
 </body>
 </html>
