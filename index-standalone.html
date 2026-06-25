@@ -424,9 +424,9 @@
   /* ---------- tablets & phones: keep the two cards side by side ---------- */
   @media (max-width:680px){
     .page{
-      min-height:100dvh;
+      min-height:calc(100dvh - 54px);
       justify-content:flex-start;
-      padding:clamp(16px,5vw,24px) clamp(16px,5vw,24px) clamp(20px,6vw,28px);
+      padding:clamp(16px,5vw,24px) clamp(16px,5vw,24px) 0;
     }
     .hero{
       justify-content:flex-start;
@@ -440,9 +440,20 @@
     }
     .card-cta{font-size:11px;gap:8px;padding:5px 5px 5px 12px}
     .card-cta .arrow{width:26px;height:26px}
-    /* keep the mission tagline on a single line */
-    .mission{white-space:nowrap}
+    /* footer bar: pin the tagline + copyright to the bottom as a tidy strip */
+    .mission{
+      white-space:nowrap;
+      margin-top:auto;
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      border-top:1px solid var(--glass-border);
+      background:rgba(255,255,255,.025);
+      -webkit-backdrop-filter:blur(6px);
+      backdrop-filter:blur(6px);
+      padding:13px 16px 15px;
+    }
     .mission .m1,.mission .m2{font-size:clamp(9px,2.8vw,13px);letter-spacing:.2px}
+    .mission .copy{margin-top:7px}
   }
 
   /* ---------- small phones: tighten type & proof strip ---------- */
