@@ -110,7 +110,6 @@
     display:block;
   }
   @media (max-width:430px){
-    .topbar{height:48px}
     .topbar-badge{height:30px}
   }
 
@@ -276,7 +275,7 @@
     color:var(--white);
   }
 
-  /* primary "shimmer" pill button (per brand guidelines) */
+  /* primary pill button (static — dark glass, blue arrow) */
   .card-cta{
     position:relative;
     display:inline-flex;
@@ -286,8 +285,6 @@
     margin-top:12px;
     padding:6px 6px 6px 16px;
     border-radius:999px;
-    overflow:hidden;
-    isolation:isolate;
     font-family:var(--body);
     font-weight:700;
     font-size:clamp(13px,1.5vw,16px);
@@ -295,27 +292,11 @@
     text-transform:uppercase;
     color:var(--white);
     white-space:nowrap;
-    box-shadow:0 0 22px -8px rgba(0,174,239,.6);
-  }
-  /* animated conic-gradient border */
-  .card-cta::before{
-    content:"";
-    position:absolute;
-    inset:-150%;
-    z-index:-2;
-    background:conic-gradient(from 0deg, rgba(0,174,239,.18) 0deg 300deg, #00AEEF 360deg);
-    animation:beam-spin 3.5s linear infinite;
-  }
-  /* dark glass fill, leaving a thin shimmering ring */
-  .card-cta::after{
-    content:"";
-    position:absolute;
-    inset:1.5px;
-    z-index:-1;
-    border-radius:999px;
-    background:rgba(10,10,10,.82);
+    background:rgba(10,10,10,.62);
+    border:1px solid rgba(0,174,239,.35);
     -webkit-backdrop-filter:blur(8px);
     backdrop-filter:blur(8px);
+    box-shadow:0 0 22px -8px rgba(0,174,239,.6);
   }
   .card-cta .arrow{
     display:grid;
@@ -328,8 +309,6 @@
     box-shadow:0 0 16px rgba(0,174,239,.55);
     transition:transform .3s ease;
   }
-  @keyframes beam-spin{to{transform:rotate(360deg)}}
-  @media (prefers-reduced-motion:reduce){.card-cta::before{animation:none}}
 
   /* hover / focus — coral glow + lift, the one accent moment */
   .card:hover,.card:focus-visible{
@@ -398,15 +377,16 @@
     letter-spacing:.3px;
     color:var(--coral);
   }
-  .mission .copy{
+  .copy{
     display:block;
     font-family:var(--body);
     font-weight:400;
     font-size:clamp(9px,2vw,12px);
     letter-spacing:normal;
     color:var(--white);
-    margin-top:clamp(18px,3.2vh,30px);
   }
+  .mission .copy{margin-top:clamp(18px,3.2vh,30px)}
+  .copybar{display:none}
 
   /* ---------- entrance motion ---------- */
   @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -440,20 +420,23 @@
     }
     .card-cta{font-size:11px;gap:8px;padding:5px 5px 5px 12px}
     .card-cta .arrow{width:26px;height:26px}
-    /* footer bar: pin the tagline + copyright to the bottom as a tidy strip */
+    /* tagline pinned to the bottom of the first screen (no divider here) */
     .mission{
       white-space:nowrap;
       margin-top:auto;
       width:100vw;
       margin-left:calc(50% - 50vw);
-      border-top:1px solid var(--glass-border);
-      background:rgba(255,255,255,.025);
-      -webkit-backdrop-filter:blur(6px);
-      backdrop-filter:blur(6px);
-      padding:13px 16px 15px;
+      padding:13px 16px 16px;
     }
     .mission .m1,.mission .m2{font-size:clamp(9px,2.8vw,13px);letter-spacing:.2px}
-    .mission .copy{margin-top:7px}
+    /* copyright lives below the fold, with the divider above it */
+    .copy--desk{display:none}
+    .copybar{
+      display:block;
+      text-align:center;
+      border-top:1px solid var(--glass-border);
+      padding:18px 16px 22px;
+    }
   }
 
   /* ---------- small phones: tighten type & proof strip ---------- */
@@ -543,9 +526,13 @@
     <footer class="mission">
       <span class="m1">Impacting one million lives.</span>
       <span class="m2">One transformation at a time.</span>
-      <span class="copy">Copyright © Better Body Academy. All rights reserved.</span>
+      <span class="copy copy--desk">Copyright © Better Body Academy. All rights reserved.</span>
     </footer>
 
+  </div>
+
+  <div class="copybar">
+    <span class="copy">Copyright © Better Body Academy. All rights reserved.</span>
   </div>
 
   <script>
