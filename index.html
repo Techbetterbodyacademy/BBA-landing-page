@@ -193,6 +193,26 @@
       linear-gradient(195deg, #181818 0%, #0b0b0b 72%);
   }
 
+  /* real transformation photo filling a choice card */
+  .card-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 32%;
+    z-index:0;
+  }
+  /* readability scrim over the photo so the label stays legible */
+  .card--photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(10,10,10,.20) 0%, rgba(10,10,10,.34) 48%, rgba(10,10,10,.86) 100%);
+    z-index:1;
+    pointer-events:none;
+  }
+
   /* glass top-edge highlight */
   .card::before{
     content:"";
@@ -409,12 +429,9 @@
       <div class="cards">
 
         <!-- MAN -->
-        <a class="card card-men" href="men.html" aria-label="I am a man — see my transformation plan">
-          <svg class="symbol" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-            <circle cx="42" cy="58" r="26" stroke-width="6"/>
-            <line x1="61" y1="39" x2="86" y2="14" stroke-width="6" stroke-linecap="round"/>
-            <polyline points="68,14 86,14 86,32" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <a class="card card-men card--photo" href="men.html" aria-label="I am a man — see my transformation plan">
+          <img class="card-photo" src="69968207b3d5f85bf57067c7.webp"
+            alt="Real Better Body Academy client — 21kg lost, 25cm off the waist" loading="lazy">
           <div class="card-foot">
             <div class="card-label">Man</div>
             <span class="card-cta">Show me my plan <span class="arrow">&rarr;</span></span>
