@@ -269,22 +269,37 @@
   .card:hover .card-cta .arrow,.card:focus-visible .card-cta .arrow{transform:translateX(4px)}
 
   /* ---------- proof strip ---------- */
-  .stats{
+  .proof{
     display:flex;
     align-items:center;
     justify-content:center;
     flex-wrap:wrap;
-    gap:clamp(10px,2vw,26px);
-    font-family:var(--mono);
-    font-size:clamp(10px,1.2vw,12px);
-    letter-spacing:1.5px;
-    color:var(--t-50);
-    text-transform:uppercase;
-    margin-top:clamp(4px,1.2vh,10px);
+    gap:clamp(16px,4vw,44px);
+    margin-top:clamp(18px,4vh,40px);
   }
-  .stats b{color:var(--white);font-weight:500}
-  .stats .dot{color:var(--coral)}
-  .stars{color:var(--coral);letter-spacing:1px}
+  .proof-item{text-align:center}
+  .proof-num{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(26px,4vw,40px);
+    line-height:1;
+    letter-spacing:-.01em;
+    color:var(--white);
+    margin-bottom:6px;
+  }
+  .proof-label{
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:clamp(9px,1.1vw,11px);
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:var(--t-50);
+  }
+  .proof-div{
+    width:1px;
+    height:34px;
+    background:linear-gradient(180deg,transparent,rgba(255,255,255,.18),transparent);
+  }
 
   /* ---------- mission footer ---------- */
   .mission{
@@ -292,44 +307,85 @@
     text-align:center;
     font-family:var(--display);
     line-height:1.4;
-    margin-top:clamp(10px,2vh,18px);
+    margin-top:clamp(32px,6vh,60px);
   }
   .mission .m1{
-    display:block;
+    display:inline;
     font-weight:600;
     font-size:clamp(13px,1.5vw,16px);
     letter-spacing:.3px;
     color:var(--t-70);
   }
   .mission .m2{
-    display:block;
+    display:inline;
     font-weight:400;
     font-size:clamp(12px,1.4vw,15px);
     letter-spacing:.3px;
     color:var(--t-30);
   }
+  .mission .copy{
+    display:block;
+    font-family:var(--mono);
+    font-weight:400;
+    font-size:clamp(10px,1.1vw,12px);
+    letter-spacing:1px;
+    color:var(--t-30);
+    margin-top:clamp(18px,3.2vh,30px);
+  }
 
   /* ---------- entrance motion ---------- */
   @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .topbar,.eyebrow,h1,.sub,.prompt,.cards,.stats,.mission{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+  .topbar,.eyebrow,h1,.sub,.prompt,.cards,.proof,.mission{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
   .eyebrow{animation-delay:.05s}
   h1{animation-delay:.12s}
   .sub{animation-delay:.20s}
   .prompt{animation-delay:.28s}
   .cards{animation-delay:.34s}
-  .stats{animation-delay:.46s}
+  .proof{animation-delay:.46s}
   .mission{animation-delay:.54s}
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  /* ---------- small phones: keep everything in view ---------- */
+  /* ---------- tablets & phones: stack the two cards ---------- */
+  @media (max-width:680px){
+    .page{
+      min-height:100dvh;
+      justify-content:flex-start;
+      padding:clamp(16px,5vw,24px) clamp(16px,5vw,24px) clamp(20px,6vw,28px);
+    }
+    .hero{
+      justify-content:flex-start;
+      gap:clamp(12px,3vh,18px);
+    }
+    .cards{
+      flex-direction:column;
+      gap:14px;
+    }
+    .card{
+      flex:0 0 auto;
+      height:clamp(150px,26vh,200px);
+    }
+    /* symbol watermark sits lower so it doesn't crowd the label */
+    .symbol{transform:translate(-50%,-64%);width:clamp(92px,22vw,120px)}
+  }
+
+  /* ---------- small phones: tighten type & proof strip ---------- */
   @media (max-width:430px){
-    h1{font-size:clamp(30px,8.8vw,40px);max-width:16ch}
-    .sub{font-size:14px;max-width:36ch}
-    .card{height:clamp(186px,29vh,250px);border-radius:15px}
-    .stats{gap:6px 12px}
-    .stats .sep{display:none}
-    .wordmark{font-size:18px}
+    h1{font-size:clamp(28px,8.6vw,38px);max-width:18ch}
+    .sub{font-size:14px;max-width:38ch}
+    .prompt{letter-spacing:4px}
+    .card{border-radius:15px;height:clamp(140px,22vh,178px)}
+    .card-foot{padding:14px 16px}
+    /* proof becomes a tidy 2x2 grid, no dividers */
+    .proof{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px 12px;
+      width:100%;
+      max-width:340px;
+    }
+    .proof-num{font-size:clamp(24px,8vw,32px)}
+    .proof-div{display:none}
   }
 </style>
 </head>
@@ -380,12 +436,26 @@
 
       </div>
 
-      <div class="stats">
-        <span><b>1,000+</b> transformations</span>
-        <span class="dot sep">&middot;</span>
-        <span>real human coaches</span>
-        <span class="dot sep">&middot;</span>
-        <span><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> client rated</span>
+      <div class="proof">
+        <div class="proof-item">
+          <div class="proof-num">4,000+</div>
+          <div class="proof-label">Transformations</div>
+        </div>
+        <span class="proof-div"></span>
+        <div class="proof-item">
+          <div class="proof-num">20+</div>
+          <div class="proof-label">Countries</div>
+        </div>
+        <span class="proof-div"></span>
+        <div class="proof-item">
+          <div class="proof-num">12+</div>
+          <div class="proof-label">Years Coaching</div>
+        </div>
+        <span class="proof-div"></span>
+        <div class="proof-item">
+          <div class="proof-num">98%</div>
+          <div class="proof-label">Finish Rate</div>
+        </div>
       </div>
 
     </main>
@@ -393,6 +463,7 @@
     <footer class="mission">
       <span class="m1">Impacting one million lives.</span>
       <span class="m2">One transformation at a time.</span>
+      <span class="copy">© 2026 Better Body Academy</span>
     </footer>
 
   </div>
