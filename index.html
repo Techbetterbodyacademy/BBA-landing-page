@@ -178,146 +178,69 @@
   }
 
   .card{
-    position:relative;
     flex:1 1 0;
-    aspect-ratio:760 / 754;
+    display:flex;
+    flex-direction:column;
     border-radius:18px;
     border:1px solid var(--glass-border);
     overflow:hidden;
     text-decoration:none;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
+    background:#0c0d10;
     transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
-    isolation:isolate;
   }
 
-  /* placeholder backgrounds — swap for real photos (see top of file) */
-  .card-men{
-    background:
-      radial-gradient(120% 90% at 28% 18%, rgba(0,174,239,.12), transparent 46%),
-      linear-gradient(165deg, #181818 0%, #0b0b0b 72%);
+  /* photo region (full figure); the foot sits below it */
+  .card-img{
+    width:100%;
+    aspect-ratio:1 / 1;
+    overflow:hidden;
   }
-  .card-women{
-    background:
-      radial-gradient(120% 90% at 72% 18%, rgba(0,174,239,.12), transparent 46%),
-      linear-gradient(195deg, #181818 0%, #0b0b0b 72%);
-  }
-
-  /* full before/after photo filling the card (card matches the image aspect) */
   .card-photo{
-    position:absolute;
-    inset:0;
     width:100%;
     height:100%;
     object-fit:cover;
     object-position:center;
-    z-index:0;
+    display:block;
   }
-  /* readability scrim so the label stays legible over the photo */
-  .card--photo::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(180deg, rgba(10,10,10,.04) 0%, rgba(10,10,10,.10) 58%, rgba(10,10,10,.80) 100%);
-    z-index:1;
-    pointer-events:none;
-  }
-
-  /* glass top-edge highlight */
-  .card::before{
-    content:"";
-    position:absolute;inset:0;
-    border-radius:inherit;
-    background:linear-gradient(180deg, rgba(255,255,255,.14), transparent 14%);
-    pointer-events:none;
-    z-index:2;
-  }
-
-  /* large faded gender symbol watermark */
-  .symbol{
-    position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-58%);
-    width:clamp(108px,15vh,168px);
-    height:auto;
-    z-index:1;
-    opacity:.10;
-    transition:opacity .35s ease, transform .35s ease;
-  }
-  .symbol *{stroke:var(--white);}
-
-  .card-tag{
-    position:absolute;
-    top:16px;left:18px;
-    z-index:3;
-    font-family:var(--mono);
-    font-size:clamp(9px,1.1vw,11px);
-    letter-spacing:2.5px;
-    color:var(--t-50);
-    text-transform:uppercase;
-  }
-
+  /* caption row below the photo: label on the left, arrow on the right, divider line on top */
   .card-foot{
-    position:relative;
-    z-index:3;
-    padding:clamp(16px,2.4vw,24px);
-    text-align:left;
-    background:linear-gradient(180deg, transparent, rgba(10,10,10,.55));
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:clamp(12px,2.4vw,18px) clamp(14px,2.6vw,20px);
+    border-top:1px solid var(--glass-border);
+    background:#0a0b0e;
   }
-
   .card-label{
     font-family:var(--display);
     font-weight:800;
-    font-size:clamp(26px,4.4vw,46px);
+    font-size:clamp(20px,3.6vw,32px);
     line-height:1;
     letter-spacing:-.01em;
-    color:var(--white);
-  }
-
-  /* primary pill button (static — dark glass, blue arrow) */
-  .card-cta{
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    margin-top:12px;
-    padding:6px 6px 6px 16px;
-    border-radius:999px;
-    font-family:var(--body);
-    font-weight:700;
-    font-size:clamp(13px,1.5vw,16px);
-    letter-spacing:1.5px;
     text-transform:uppercase;
     color:var(--white);
-    white-space:nowrap;
-    background:rgba(10,10,10,.62);
-    border:1px solid rgba(0,174,239,.35);
-    -webkit-backdrop-filter:blur(8px);
-    backdrop-filter:blur(8px);
   }
-  .card-cta .arrow{
+  .card-arrow{
     display:grid;
     place-items:center;
     flex:0 0 auto;
-    width:30px;height:30px;
+    width:clamp(30px,4.4vw,40px);
+    height:clamp(30px,4.4vw,40px);
     border-radius:50%;
     background:var(--coral);
     color:#fff;
     transition:transform .3s ease;
   }
 
-  /* hover / focus — coral glow + lift, the one accent moment */
+  /* hover / focus — coral glow + lift */
   .card:hover,.card:focus-visible{
     transform:translateY(-6px);
     border-color:var(--coral);
     box-shadow:0 12px 40px rgba(0,0,0,.4), 0 0 40px rgba(0,174,239,.28);
     outline:none;
   }
-  .card:hover .symbol,.card:focus-visible .symbol{opacity:.22;transform:translate(-50%,-62%) scale(1.04)}
-  .card:hover .card-cta,.card:focus-visible .card-cta{color:var(--white);gap:12px}
-  .card:hover .card-cta .arrow,.card:focus-visible .card-cta .arrow{transform:translateX(4px)}
+  .card:hover .card-arrow,.card:focus-visible .card-arrow{transform:translateX(4px)}
 
   /* ---------- proof strip ---------- */
   .proof{
@@ -416,8 +339,9 @@
     .card{
       height:auto;
     }
-    .card-cta{font-size:11px;gap:8px;padding:5px 5px 5px 12px}
-    .card-cta .arrow{width:26px;height:26px}
+    .card-foot{padding:11px 13px}
+    .card-label{font-size:clamp(17px,4.6vw,24px)}
+    .card-arrow{width:30px;height:30px}
     /* tagline pinned to the bottom of the first screen (no divider here) */
     .mission{
       white-space:nowrap;
@@ -443,10 +367,9 @@
     .sub{font-size:14px;max-width:38ch}
     .prompt{letter-spacing:4px}
     .card{border-radius:15px;height:auto}
-    .card-foot{padding:12px 13px}
-    .card-cta{font-size:10px;gap:6px;padding:4px 4px 4px 10px}
-    .card-cta .arrow{width:23px;height:23px}
-    .card-label{font-size:clamp(20px,6.4vw,30px)}
+    .card-foot{padding:10px 12px}
+    .card-label{font-size:clamp(15px,5vw,21px)}
+    .card-arrow{width:26px;height:26px}
     .card-cta{font-size:11px;gap:5px;margin-top:5px}
     /* proof becomes a tidy 2x2 grid, no dividers */
     .proof{
@@ -478,20 +401,22 @@
       <div class="cards">
 
         <!-- MAN -->
-        <a class="card card-men card--photo" href="men.html" aria-label="I am a man — see my transformation plan">
-          <img class="card-photo" src="man-before-after.webp"
-            alt="Real Better Body Academy client — 21kg lost, 25cm off the waist" loading="lazy">
+        <a class="card card-men" href="men.html" aria-label="I am a man — see my transformation plan">
+          <div class="card-img"><img class="card-photo" src="man-before-after.webp"
+            alt="Real Better Body Academy client — 21kg lost, 25cm off the waist" loading="lazy"></div>
           <div class="card-foot">
-            <span class="card-cta"><span class="cta-text">Man</span><span class="arrow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></span>
+            <span class="card-label">Man</span>
+            <span class="card-arrow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </div>
         </a>
 
         <!-- WOMAN -->
-        <a class="card card-women card--photo" href="women.html" aria-label="I am a woman — see my transformation plan">
-          <img class="card-photo" src="woman-before-after.webp"
-            alt="Real Better Body Academy client — 15kg lost, 11cm off the waist" loading="lazy">
+        <a class="card card-women" href="women.html" aria-label="I am a woman — see my transformation plan">
+          <div class="card-img"><img class="card-photo" src="woman-before-after.webp"
+            alt="Real Better Body Academy client — 15kg lost, 11cm off the waist" loading="lazy"></div>
           <div class="card-foot">
-            <span class="card-cta"><span class="cta-text">Woman</span><span class="arrow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></span>
+            <span class="card-label">Woman</span>
+            <span class="card-arrow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           </div>
         </a>
 
