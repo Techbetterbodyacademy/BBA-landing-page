@@ -158,10 +158,11 @@
   }
 
   .prompt{
-    font-family:var(--body);
-    font-weight:400;
-    font-size:clamp(15px,1.7vw,20px);
-    line-height:1.45;
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(11px,1.3vw,13px);
+    letter-spacing:5px;
+    text-transform:uppercase;
     color:var(--coral);
     margin-top:clamp(2px,1vh,8px);
   }
@@ -403,7 +404,7 @@
   @media (max-width:430px){
     h1{font-size:clamp(28px,8.6vw,38px);max-width:18ch}
     .sub{font-size:14px;max-width:38ch}
-    .prompt{font-size:14px}
+    .prompt{letter-spacing:4px}
     .card{border-radius:15px;height:auto}
     .card-foot{padding:12px 13px}
     .card-label{font-size:clamp(20px,6.4vw,30px)}
